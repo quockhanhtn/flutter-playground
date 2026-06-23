@@ -8,10 +8,13 @@ import 'package:news_app/features/daily_news/presentation/bloc/article/remote/re
 import 'package:news_app/features/daily_news/presentation/bloc/article/remote/remote_article_event.dart';
 import 'package:news_app/features/daily_news/presentation/pages/home/daily_news.dart';
 
+import 'config/routes/routes.dart';
 import 'config/theme/app_theme.dart';
 import 'injection_container.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await dotenv.load();
 
   await configureDependencies();
@@ -30,7 +33,8 @@ class MainApp extends StatelessWidget {
       create: (context) => getIt<RemoteArticleBloc>()..add(GetArticlesEvent()),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: DailyNews(),
+        home: const DailyNews(),
+        onGenerateRoute: AppRoutes.onGenerateRoutes,
         theme: theme(),
       ),
     );

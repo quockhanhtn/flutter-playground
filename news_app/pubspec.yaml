@@ -23,7 +23,7 @@ dependencies:
   intl: ^0.20.2
 
   # database
-  floor: ^1.4.2
+  floor: ^1.4.0
 
   # make request to api
   retrofit: ^3.0.1+1
@@ -35,6 +35,7 @@ dependencies:
 
   dio: ^4.0.1
   flutter_dotenv: ^6.0.1
+  sqflite_common: ^2.5.11
 
 dev_dependencies:
   flutter_test:
@@ -42,7 +43,7 @@ dev_dependencies:
   
   flutter_lints: ^6.0.0
   retrofit_generator: 4.2.0
-  floor_generator: ^1.4.2
+  floor_generator: ^1.4.0
   build_runner: ^2.1.11
 
 flutter:

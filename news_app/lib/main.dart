@@ -14,7 +14,7 @@ import 'injection_container.dart';
 void main() async {
   await dotenv.load();
 
-  await initializeDependencies();
+  await configureDependencies();
 
   log('Api key $apiKey');
   runApp(const MainApp());
@@ -26,7 +26,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<RemoteArticleBloc>(
-      create: (context) => sl<RemoteArticleBloc>()..add(GetArticlesEvent()),
+      create: (context) => getIt<RemoteArticleBloc>()..add(GetArticlesEvent()),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: DailyNews(),

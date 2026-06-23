@@ -6,18 +6,18 @@ import 'package:news_app/features/daily_news/domain/repository/article_repositor
 import 'package:news_app/features/daily_news/domain/usecases/get_article_usecase.dart';
 import 'package:news_app/features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
 
-final sl = GetIt.instance;
+final getIt = GetIt.instance;
 
-Future<void> initializeDependencies() async {
+Future<void> configureDependencies() async {
   // Dio
-  sl.registerSingleton<Dio>(Dio());
+  getIt.registerSingleton<Dio>(Dio());
 
-  sl.registerSingleton<NewsApiService>(NewsApiService(sl()));
-  sl.registerSingleton<ArticleRepository>(ArticleRepositoryImpl(sl()));
+  getIt.registerSingleton<NewsApiService>(NewsApiService(getIt()));
+  getIt.registerSingleton<ArticleRepository>(ArticleRepositoryImpl(getIt()));
 
   // usecase
-  sl.registerSingleton<GetArticleUsecase>(GetArticleUsecase(sl()));
+  getIt.registerSingleton<GetArticleUsecase>(GetArticleUsecase(getIt()));
 
   // blocs
-  sl.registerSingleton<RemoteArticleBloc>(RemoteArticleBloc(sl()));
+  getIt.registerSingleton<RemoteArticleBloc>(RemoteArticleBloc(getIt()));
 }

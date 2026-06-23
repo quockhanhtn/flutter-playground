@@ -44,8 +44,8 @@ class _NewsApiService implements NewsApiService {
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
       ),
     );
-    List<ArticleModel> value = _result.data!['articles']
-        .map((dynamic i) => ArticleModel.fromJson(i as Map<String, dynamic>))
+    final List<ArticleModel> value = (_result.data!['articles'] as List)
+        .map((e) => ArticleModel.fromJson(e as Map<String, dynamic>))
         .toList();
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;

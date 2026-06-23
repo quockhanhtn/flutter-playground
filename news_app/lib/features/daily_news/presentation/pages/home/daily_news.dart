@@ -25,11 +25,12 @@ class DailyNews extends StatelessWidget {
           return Center(child: CupertinoActivityIndicator());
         }
         if (state is RemoteArticlesError) {
-          return Center(child: Icon(Icons.refresh));
+          return Center(child: Text(state.error.toString()));
         }
         if (state is RemoteArticlesDone) {
           return ListView.builder(
             itemCount: state.articles!.length,
+            scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
               return ArticleWidget(article: state.articles![index]);
             },

@@ -17,6 +17,7 @@ void main() async {
   await configureDependencies();
 
   log('Api key $apiKey');
+
   runApp(const MainApp());
 }
 

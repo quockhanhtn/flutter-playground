@@ -9,78 +9,103 @@ class ArticleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CachedNetworkImage(
-            width: size.width > 600 ? size.width * 0.3 : size.width * 0.35,
-            height: size.height > 600 ? size.height * 0.8 : size.height * 0.3,
-            imageUrl: article.urlToImage!,
-            placeholder: (context, url) =>
-                const Center(child: CircularProgressIndicator()),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-            imageBuilder: (context, imageProvider) => Container(
-              width: size.width > 600 ? size.width * 0.3 : size.width * 0.35,
-              height: size.height > 600 ? size.height * 0.8 : size.height * 0.3,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                  alignment: Alignment.center,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      clipBehavior: Clip.antiAlias,
+      child: SizedBox(
+        height: 175,
+        child: Row(
+          children: [
+            SizedBox(
+              width: 120,
+              height: double.infinity,
+              child: article.urlToImage?.isNotEmpty == true
+                  ? CachedNetworkImage(
+                      imageUrl: article.urlToImage!,
+                      fit: BoxFit.cover,
+                      placeholder: (_, _) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (_, _, _) =>
+                          const Icon(Icons.image_not_supported),
+                    )
+                  : const Icon(Icons.image, size: 40),
             ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  article.title!,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  article.description!,
-                  style: const TextStyle(
-                    color: Color.fromARGB(186, 255, 255, 255),
-                    fontSize: 15,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Row(
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.all_inclusive),
-                    const SizedBox(width: 10),
                     Text(
-                      article.publishedAt!,
-                      style: const TextStyle(
-                        color: Color.fromARGB(186, 255, 255, 255),
-                        fontSize: 12,
-                      ),
-                      maxLines: 1,
+                      article.title ?? 'No title',
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    Expanded(
+                      child: Text(
+                        article.description ?? '',
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.grey.shade700,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            article.author ?? 'Unknown',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          _formatDate(article.publishedAt),
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+
+  static String _formatDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return '';
+    }
+
+    try {
+      final date = DateTime.parse(value);
+      return '${date.day}/${date.month}/${date.year}';
+    } catch (_) {
+      return value;
+    }
   }
 }
